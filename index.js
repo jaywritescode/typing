@@ -9,7 +9,7 @@ function typing(text, el, callback) {
     }
     else {
       el.innerText = text.substring(0, len);
-      setTimeout(() => typeMore(len + 1), 500);
+      setTimeout(() => typeMore(len + 1), Math.random() * 1000);
     }
   }, 3000);
 };
