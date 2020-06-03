@@ -1,17 +1,41 @@
-function typing(text, el, callback) {
-  if (!text.length) {
-    return;
-  }
+function typing(tree, parent) {
+  const queue = [[tree, parent]];
 
-  setTimeout(function typeMore(len = 0) {
-    if (len > text.length) {
-      callback && typeof callback === 'function' && callback(); 
+  function doNextNode() {
+    if (!queue.length) {
+      return;
+    }
+
+    const [currentNode, parent] = [...queue.shift()];
+
+    if (currentNode.nodeType == Node.ELEMENT_NODE) {
+      const clone = currentNode.cloneNode();
+      parent.appendChild(clone);
+
+      queue.unshift(...Array.from(currentNode.childNodes).map(node => [node, clone]));
+      doNextNode();
     }
     else {
-      el.innerText = text.substring(0, len);
-      setTimeout(() => typeMore(len + 1), Math.random() * 1000);
-    }
-  }, 3000);
-};
+      const newNode = document.createTextNode('');
+      parent.appendChild(newNode);
 
-export default typing;
+      const text = currentNode.textContent;
+      
+      const doNextLetter = (len = 0) => {
+        if (len > text.length) {
+          doNextNode();
+          return;
+        }
+        else {
+          newNode.data = text.substring(0, ++len);
+          setTimeout(() => doNextLetter(len), 500);
+        }
+      }
+
+      doNextLetter();
+    }
+  };
+  doNextNode();
+}
+
+export { typing };

@@ -1,6 +1,7 @@
-import typing from './index.js';
+import { typing } from './index.js';
 
-(function() { window.addEventListener('DOMContentLoaded', () => {
-  const el = document.getElementById('main');
-  typing('hello world', el, () => console.log('done'));
-}) })();
+(function() { 
+  window.addEventListener('DOMContentLoaded', () => {
+    typing(document.getElementById('test'), document.getElementById('main'));
+  });
+})();
