@@ -1,5 +1,9 @@
-function typing(tree, parent) {
+const DEFAULT_SPEED = 200;
+
+function typing(tree, parent, options = {}) {
   const queue = [[tree, parent]];
+
+  const speed = options.speed || DEFAULT_SPEED;
 
   function doNextNode() {
     if (!queue.length) {
@@ -28,7 +32,7 @@ function typing(tree, parent) {
         }
         else {
           newNode.data = text.substring(0, ++len);
-          setTimeout(() => doNextLetter(len), 500);
+          setTimeout(() => doNextLetter(len), speed);
         }
       }
 
