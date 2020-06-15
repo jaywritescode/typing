@@ -39,14 +39,15 @@ function typing(tree, parent, options = {}) {
 
     const [currentNode, parent] = [...queue.shift()];
 
-    if (currentNode.nodeType == Node.ELEMENT_NODE) {
-      appendElementNode(currentNode, parent);
-    }
-    else if (currentNode.nodeType == Node.TEXT_NODE) {
-      appendTextNode(currentNode, parent);
-    }
-    else {
-      console.error('Unknown node type.');
+    switch (currentNode.nodeType) {
+      case Node.ELEMENT_NODE:
+        appendElementNode(currentNode, parent);
+        break;
+      case Node.TEXT_NODE:
+        appendTextNode(currentNode, parent);
+        break;
+      default:
+        console.error('Unexpected node type.');
     }
   };
   doNextNode();
